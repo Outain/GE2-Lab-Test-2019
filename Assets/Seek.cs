@@ -1,13 +1,23 @@
-﻿using System;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+//using Random = System.Random;
+
 
 public class Seek : SteeringBehaviour
 {
     public GameObject targetGameObject = null;
     public Vector3 target = Vector3.zero;
+    public GameObject[] enemyBases;
+    public Fighter fScript;
+
+    private void Start()
+    {
+       
+    }
 
     public void OnDrawGizmos()
     {
@@ -33,5 +43,10 @@ public class Seek : SteeringBehaviour
         {
             target = targetGameObject.transform.position;
         }
+
+       
+       
     }
+
+   
 }
