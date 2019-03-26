@@ -60,8 +60,18 @@ public class Base : MonoBehaviour
         }
 
         fighter.GetComponent<Arrive>().enemyBases = bases; //this populates an array of enemy base targets in the arrive function
-        fighter.GetComponent<Seek>().target = transform.position; //this is for returning to base to refuel
+        fighter.GetComponent<Arrive>().initialBase = this.gameObject; //this is for returning to base to refuel
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "bullet")
+        {
+            tiberium -= 0.5f;
+            Destroy(other.gameObject);
+        }
+    }
+
 //
 //    IEnumerator CheckForSpawn()
 //    {

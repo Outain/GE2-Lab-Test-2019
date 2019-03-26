@@ -42,6 +42,7 @@ public class Seek : SteeringBehaviour
         if (targetGameObject != null)
         {
             target = targetGameObject.transform.position;
+            
         }
 
        

@@ -27,8 +27,11 @@ public class Fighter : MonoBehaviour
     {
         if (tiberium <= 0)
         {
-            GetComponent<Seek>().enabled = true;
+            aScript.refueling = true;
+            GetComponent<Fighter>().enabled = false;
         }
+
+        
         Vector3 targetDir = aScript.targetGameObject.transform.position - transform.position;
         Vector3.RotateTowards(transform.forward,targetDir,Time.deltaTime,0);
     }
@@ -37,9 +40,13 @@ public class Fighter : MonoBehaviour
     {
         while (true)
         {
-            GameObject newBullet = Instantiate(bullet, transform.position, transform.rotation);
-            newBullet.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
-            tiberium--;
+            if (tiberium > 0)
+            {
+                GameObject newBullet = Instantiate(bullet, transform.position, transform.rotation);
+                newBullet.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
+                tiberium--;
+            }
+
             yield return new WaitForSeconds(1f);
         }
     }

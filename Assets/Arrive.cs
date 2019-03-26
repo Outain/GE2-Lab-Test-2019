@@ -10,9 +10,11 @@ public class Arrive: SteeringBehaviour
     public float slowingDistance = 15.0f;
 
     public GameObject targetGameObject = null;
+    public GameObject initialBase;
     
     public GameObject[] enemyBases;
     public Fighter fScript;
+    public bool refueling;
         
     public override Vector3 Calculate()
     {
@@ -27,17 +29,38 @@ public class Arrive: SteeringBehaviour
 
     public void Update()
     {
-        if (targetGameObject != null)
+        if (refueling && initialBase !=null)
+        {
+            targetPosition = initialBase.transform.position;
+        }
+        else if (targetGameObject != null)
         {
             targetPosition = targetGameObject.transform.position;
         }
-        
-        if (Vector3.Distance(targetGameObject.transform.position, transform.position) <= 10)
-        {
-            fScript.enabled = true;
 
-            boid.velocity = new Vector3(0,0,0);
-            GetComponent<Arrive>().enabled = false;
+        if (!refueling)
+        {
+            if (Vector3.Distance(targetGameObject.transform.position, transform.position) <= 10)
+            {
+                fScript.enabled = true;
+
+                boid.velocity = new Vector3(0, 0, 0);
+                //GetComponent<Arrive>().enabled = false;
+            }
+        }
+
+        if (refueling)
+        {
+            fScript.enabled = false;
+            if (Vector3.Distance(initialBase.transform.position, transform.position) <= 2)
+            {
+                if (initialBase.GetComponent<Base>().tiberium >= 7)
+                {
+                    fScript.tiberium = 7;
+                    initialBase.GetComponent<Base>().tiberium -= 7;
+                    refueling = false;
+                }
+            }
         }
     }
     
